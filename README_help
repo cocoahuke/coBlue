@@ -1,0 +1,34 @@
+coBlue -- Use terminal and file transfer services thought Bluetooth Low Enegy, wrote by cocoahuke
+
+Options:
+  -debug		Enable output of debug
+  -nodaemon		Directly running without fork subprocess, which means does not automatically restart after disconnecting
+
+  -secur [arg]	Specifies the security level on the ATT protocol, default is medium. im not sure just this changes could make high-level security work, other options are:
+			low     (No encryption and no authentication)
+			medium  (Encryption and no authentication)
+			high    (Encryption and authentication)
+			fips    (Authenticated Secure Connections)
+
+  -wowner [arg]	Specifies the owner of the file that create by writting op
+  -dmacfltr		Disable Mac Address Filtering, default is enable. Enable will allow the device Mac address record from ~/.coblued_config/coblue_filter make connection without verify
+			coblue_filter file content format example:
+			[AB:CC:12:34:9F:31][XX:XX:XX:XX:XX:XX]
+			Disable means that all access devices need to be verified, same if file does not exist
+
+  -filterw		Modify the Mac Address Filtering configuration using the nano tool
+  -fltrmax [arg]	The maximum number of filter addresses, default is ten
+
+  -dverify		Disable the authentication, default is enable. when Enable all access devices need to send a string of uuid within a limited time and match with specified uuid, match, disconnect right away if doesn't match. specified uuid save as
+			specified uuid saves in a file for location ~/.coblued_config/coBlued_verify
+			coblue_filter file content format example:
+			561382C9-4D0C-4E1F-A8E2-50AAACFA31D1
+			Disable means no verify for all access device
+
+  -verifyw		Modify the authentication configuration using the nano tool
+  -verifyti [arg]	Specified the countdown(second) for complete verify before disconnecting, default is three seconds
+
+  -name [arg]	Specifies the device name when advertising, default is orange
+
+  -configw		add the boot parameters that every time using with boot. if you want to change the name, this way
+pi@raspberrypi:~ $
