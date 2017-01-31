@@ -36,6 +36,7 @@ Another program to communicate with coBlue on Macos (Publish soon)
 6. Start automatically when raspberry pi boot up
 7. You can change the device name or Service UUID for confusion
 8. Interactive command in Macos as Central  
+**More functions see -h**  
 maybe add more in the future...
 
 
