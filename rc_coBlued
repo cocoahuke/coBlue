@@ -1,0 +1,24 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides: coBlue
+# Required-Start:    $local_fs $syslog
+# Required-Stop:     $local_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: coBlue wrote by cocoahuke, https://github.com/cocoahuke/coBlue
+### END INIT INFO
+
+COBLUE_PROG_NAME="coBlued"
+
+PARAMETERS="-name orange"
+#Add parameters that be executed each time
+
+case $1 in
+start)
+/usr/sbin/$COBLUE_PROG_NAME $PARAMETERS &
+#Comment out the line above to Disable coBlue
+;;
+stop)
+killall $COBLUE_PROG_NAME
+
+esac
