@@ -43,21 +43,6 @@ maybe add more in the future...
 Or you can add characteristic to connect to your own program, so that it make coblue able to control through A simple command, which means that your other devices can send commands to a linux device (such as your Macbook or iPhone).  
 I did not provide iOS program, but its a simple conversion from Mac program, both use CoreBluetooth  
 
-Macos control tools as BLE central: (Publish soon)
-
-If you want to temporarily turn off
-```
-sudu killall coBlued
-```
-If you want to disable it
-```
-sudo coBlued -configw
-```
-and you will see
-```
-/usr/sbin/$COBLUE_PROG_NAME $PARAMETERS &
-#Comment out the line above to Disable coBlue
-```
 ## Shortcomings
 
 1. SLOW, send 20 bytes at a time
@@ -88,6 +73,23 @@ sudo coBlued -filterw
 or
 ```bash
 sudo coBlued -verifyw
+```
+Then reboot to **Start using**
+
+Macos control tools as BLE central: (Publish soon)
+
+If you want to **Temporarily turn off**
+```
+sudu killall coBlued
+```
+If you want to **Disable it**
+```
+sudo coBlued -configw
+```
+and you will see
+```
+/usr/sbin/$COBLUE_PROG_NAME $PARAMETERS &
+#Comment out the line above to Disable coBlue
 ```
 if need **Uninstall**
 ```bash
