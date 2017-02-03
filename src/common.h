@@ -17,9 +17,8 @@
 #include <errno.h>
 #include <signal.h>
 #include <fcntl.h>
-#include <arm-linux-gnueabihf/sys/stat.h>
+#include <sys/stat.h>
 #include <arm-linux-gnueabihf/sys/types.h>
-#include <arm-linux-gnueabihf/bits/stat.h>
 #include <stdbool.h>
 #include <pthread.h>
 #include <sys/timeb.h>

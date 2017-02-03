@@ -32,7 +32,7 @@ extern "C" {
 #endif
 
 #include <stdint.h>
-#include <bluetooth/bluetooth.h>
+#include "bluetooth.h"
 
 #define SDP_UNIX_PATH "/var/run/sdp"
 #define SDP_RESPONSE_TIMEOUT	20
