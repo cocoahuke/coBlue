@@ -1,9 +1,9 @@
 # coBlue
 Use Bluetooth Low Energy for remote commands, file transfer, Based on bluez Bluetooth protocol stack
 
-[![coBlue](https://img.shields.io/badge/build-passing-blue.svg)]()
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/cocoahuke/coBlue/blob/master/LICENSE)
-[![coBlue](https://img.shields.io/badge/version-1.0-yellow.svg)]()
+[![build](https://travis-ci.org/brick-js/brick.js.svg?branch=master)]()
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/cocoahuke/coBlue/blob/master/LICENSE)
+[![version](https://img.shields.io/badge/version-1.0-yellow.svg)]()
 
 Bluetooth Low Energy compared to other forms of wireless connection such as wifi or Bluetooth have more uncomplicated, lower energy consumption. Image your iPhone wirelessly connect to a tiny computer such as raspberry pi etc, and use the powerful tool on Linux
 
