@@ -3,11 +3,10 @@ CFLAGS=-std=c99 -lpthread -w
 
 checksudo = Require\ sudo\ for\ make
 
-build/coBlued:$(checksudo) #build/%.o
+build/coBlued:$(checksudo) build/%.o
 	$(CC) $(CFLAGS) -o $@ src/*.c src/*.h build/*.o
 
-#\
-build/%.o:\
+build/%.o:
 	@echo "Compiling %.o"\
 	$(shell rm -rf build;mkdir -p build;cd build; \
   cfiles=`ls ../src/ble/att/* ../src/ble/gatt/* ../src/ble/lib/* ../src/ble/util/* |grep .c$$ `;\
