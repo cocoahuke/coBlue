@@ -28,8 +28,8 @@
 #define __SDP_LIB_H
 
 #include <sys/socket.h>
-#include <bluetooth/bluetooth.h>
-#include <bluetooth/hci.h>
+#include "bluetooth.h"
+#include "hci.h"
 
 #ifdef __cplusplus
 extern "C" {

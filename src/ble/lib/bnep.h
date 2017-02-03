@@ -29,7 +29,7 @@
 extern "C" {
 #endif
 
-#include <bluetooth/bluetooth.h>
+#include "bluetooth.h"
 
 #ifndef ETH_ALEN
 #define ETH_ALEN	6		/* from <net/ethernet.h> */

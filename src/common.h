@@ -18,7 +18,7 @@
 #include <signal.h>
 #include <fcntl.h>
 #include <sys/stat.h>
-#include <arm-linux-gnueabihf/sys/types.h>
+#include <sys/types.h>
 #include <stdbool.h>
 #include <pthread.h>
 #include <sys/timeb.h>
