@@ -1,7 +1,7 @@
 # coBlue
 Use Bluetooth Low Energy for remote commands, file transfer, Based on bluez Bluetooth protocol stack
 
-[![build](https://travis-ci.org/brick-js/brick.js.svg?branch=master)]()
+[![build](https://travis-ci.org/cocoahuke/coBlue.svg?branch=master)]()
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/cocoahuke/coBlue/blob/master/LICENSE)
 [![version](https://img.shields.io/badge/version-1.0-yellow.svg)]()
 
