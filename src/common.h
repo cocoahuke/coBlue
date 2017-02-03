@@ -21,7 +21,6 @@
 #include <sys/types.h>
 #include <stdbool.h>
 #include <pthread.h>
-#include <pthread/pthread.h>
 #include <sys/timeb.h>
 #include <pwd.h>
 

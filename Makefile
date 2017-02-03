@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-std=c99 -lpthread -w
+CFLAGS=-std=c99 -pthread -w
 
 checksudo = Require\ sudo\ for\ make
 
