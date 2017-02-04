@@ -124,6 +124,14 @@ void comm_file_transfer_xREAD(struct gatt_db_attribute *attrib,
         //*(uint32_t*)remote_buf = (uint32_t)file_size;
         DEBUG_OUTPUT("file_transfer Step 6(read)\n");
 
+        if(!file_size){
+             DEBUG_OUTPUT("coblue terminal read op complete\n");
+             clear_and_restore_idle();
+             DEBUG_OUTPUT("file_transfer read:0x%x\n",*(uint32_t*)remote_buf);
+             gatt_db_attribute_read_result(attrib,id,0,remote_buf,0);
+             return;
+         }
+
         size_t readsize = 0;
 
         /*if(file_size<=SEND_SIZE){
@@ -134,14 +142,6 @@ void comm_file_transfer_xREAD(struct gatt_db_attribute *attrib,
          }*/
         readsize = file_size<=SEND_SIZE?fread(remote_buf,1,file_size,file_fp):fread(remote_buf,1,SEND_SIZE,file_fp);
         file_size-=readsize;
-
-        if(!file_size){
-            DEBUG_OUTPUT("coblue terminal read op complete\n");
-            clear_and_restore_idle();
-            DEBUG_OUTPUT("file_transfer read:0x%x\n",*(uint32_t*)remote_buf);
-            gatt_db_attribute_read_result(attrib,id,0,remote_buf,0);
-            return;
-        }
 
         DEBUG_OUTPUT("file_transfer read(%d):0x%x\n",readsize,*(uint32_t*)remote_buf);
         gatt_db_attribute_read_result(attrib,id,0,remote_buf,readsize);
