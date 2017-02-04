@@ -29,11 +29,12 @@ void comm_Terminal_xREAD(struct gatt_db_attribute *attrib,
                                 unsigned int id, uint16_t offset,
                                 uint8_t opcode, struct bt_att *att,
                                 void *user_data){
+
     connect_verify(NULL,0);
-    
+
     char remote_buf[STDSIZE];
     bzero(remote_buf,STDSIZE);
-    
+
     if(terminal_status&TERMINAL_NEED_RESPOND){
         if(terminal_status&TERMINAL_EXEC_DONE){
             terminal_status&=~TERMINAL_NEED_RESPOND;
@@ -43,7 +44,7 @@ void comm_Terminal_xREAD(struct gatt_db_attribute *attrib,
         gatt_db_attribute_read_result(attrib,id,0,remote_buf,strlen(remote_buf));
         return;
     }
-    
+
     if(terminal_status&(TERMINAL_EXEC_DONE|TERMINAL_GOT_RETURN)){
         while(!*(uint32_t*)pub_buf){
             if(terminal_status==TERMINAL_EXEC_DONE){
@@ -53,11 +54,11 @@ void comm_Terminal_xREAD(struct gatt_db_attribute *attrib,
         }
         memcpy(remote_buf,pub_buf,STDSIZE);
         bzero(pub_buf,STDSIZE);
-        DEBUG_OUTPUT("read return2:(0x%x) %s\n",*(uint32_t*)remote_buf,remote_buf);
+        //DEBUG_OUTPUT("read return2:(0x%x) %s\n",*(uint32_t*)remote_buf,remote_buf);
         gatt_db_attribute_read_result(attrib,id,0,remote_buf,strlen(remote_buf));
         return;
     }
-    
+
     *(uint32_t*)remote_buf = terminal_status;
     DEBUG_OUTPUT("read return3\n");
     gatt_db_attribute_read_result(attrib,id,0,remote_buf,strlen(remote_buf));
@@ -69,29 +70,29 @@ void terminal_write(char *cmd){
     terminal_status = TERMINAL_NEED_RESPOND;
     bzero(pub_buf,STDSIZE);
     terminal_status|=TERMINAL_STILL_IN_EXEC;
-    
+
     DEBUG_OUTPUT("exec cmd: [%s]\n",(char*)cmd);
-    
+
     FILE* in_pipe = popen(cmd,"r");
     if(!in_pipe){
         DEBUG_OUTPUT("本地执行出错\n");prog_quit(0);
     }
-    
+
     terminal_status&=~TERMINAL_STILL_IN_EXEC;
-    
+
     while(fgets(pub_buf,STDSIZE,in_pipe)){
         terminal_status|=TERMINAL_EXEC_DONE|TERMINAL_GOT_RETURN;
         while(*(uint32_t*)pub_buf){
         }
     }
-    
+
     if(terminal_status&TERMINAL_GOT_RETURN){
         terminal_status = TERMINAL_EXEC_DONE;
     }
     else{
         terminal_status |= TERMINAL_EXEC_DONE;
     }
-    
+
     pclose(in_pipe);
     free(cmd);
 }
@@ -107,7 +108,7 @@ void comm_Terminal_xWRITE(struct gatt_db_attribute *attrib,
     if(connect_verify(value,len)){
         WRITE_RETURN;return;
     }
-    
+
     pthread_t wt = 0;
     void *cmd_buf = malloc(len+1);
     bzero(cmd_buf,len+1);

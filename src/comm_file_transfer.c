@@ -50,44 +50,44 @@ void comm_file_transfer_xREAD(struct gatt_db_attribute *attrib,
                               uint8_t opcode, struct bt_att *att,
                               void *user_data){
     connect_verify(NULL,0);
-    
+
     char remote_buf[SEND_SIZE];
     bzero(remote_buf,SEND_SIZE);
-    
+
     int i = FILE_TRANSFER_ERROR_MACRO_START;
     for(;i<=FILE_TRANSFER_ERROR_MACRO_END;i=i*2){
         if(file_transfer_status&i){
             DEBUG_OUTPUT("file_transfer read error status:0x%x\n",file_transfer_status);
-            
+
             *(uint32_t*)remote_buf = file_transfer_status;
             clear_and_restore_idle();
             gatt_db_attribute_read_result(attrib,id,0,remote_buf,sizeof(uint32_t));
             return;
         }
     }
-    
+
     if(!file_transfer_status&FILE_TRANSFER_NEED_RESPOND){
         *(uint32_t*)remote_buf = file_transfer_status;
         DEBUG_OUTPUT("file_transfer read need respond:0x%x\n",*(uint32_t*)remote_buf);
         gatt_db_attribute_read_result(attrib,id,0,remote_buf,sizeof(uint32_t));
         return;
     }
-    
+
     if(file_transfer_status&FILE_TRANSFER_DECIDING_RW){
         /*Step 2*/
         DEBUG_OUTPUT("file_transfer Step 2\n");
-        
+
         file_transfer_status&=~FILE_TRANSFER_NEED_RESPOND;
         *(uint32_t*)remote_buf = file_transfer_status;
         DEBUG_OUTPUT("file_transfer deciding rw:0x%x\n",*(uint32_t*)remote_buf);
         gatt_db_attribute_read_result(attrib,id,0,remote_buf,sizeof(uint32_t));
         return;
     }
-    
+
     if(file_transfer_status&FILE_TRANSFER_DECIDING_PATH){
         /*Step 4*/
         DEBUG_OUTPUT("file_transfer Step 4\n");
-        
+
         file_transfer_status&=~FILE_TRANSFER_NEED_RESPOND;
         *(uint32_t*)remote_buf = file_transfer_status;
         if(isReadOP){
@@ -104,11 +104,11 @@ void comm_file_transfer_xREAD(struct gatt_db_attribute *attrib,
         gatt_db_attribute_read_result(attrib,id,0,remote_buf,sizeof(uint32_t));
         return;
     }
-    
+
     if(file_transfer_status&FILE_TRANSFER_READFILE_SIZE){
         /*Step 5(read)*/
         DEBUG_OUTPUT("file_transfer Step 5(read)\n");
-        
+
         file_transfer_status&=~FILE_TRANSFER_NEED_RESPOND;
         *(uint32_t*)remote_buf = (uint32_t)file_size;
         file_transfer_status&=~FILE_TRANSFER_READFILE_SIZE;
@@ -117,23 +117,15 @@ void comm_file_transfer_xREAD(struct gatt_db_attribute *attrib,
         gatt_db_attribute_read_result(attrib,id,0,remote_buf,sizeof(uint32_t));
         return;
     }
-    
+
     if(file_transfer_status&FILE_TRANSFER_READING_FILE){
         file_transfer_status&=~FILE_TRANSFER_NEED_RESPOND;
         /*Step 6(read)*/
         //*(uint32_t*)remote_buf = (uint32_t)file_size;
         DEBUG_OUTPUT("file_transfer Step 6(read)\n");
-        
+
         size_t readsize = 0;
-        
-        if(!file_size){
-            DEBUG_OUTPUT("coblue terminal read op complete\n");
-            clear_and_restore_idle();
-            DEBUG_OUTPUT("file_transfer read:0x%x\n",*(uint32_t*)remote_buf);
-            gatt_db_attribute_read_result(attrib,id,0,remote_buf,0);
-            return;
-        }
-        
+
         /*if(file_size<=SEND_SIZE){
          readsize = fread(remote_buf,file_size,1,file_fp);
          }
@@ -142,12 +134,20 @@ void comm_file_transfer_xREAD(struct gatt_db_attribute *attrib,
          }*/
         readsize = file_size<=SEND_SIZE?fread(remote_buf,1,file_size,file_fp):fread(remote_buf,1,SEND_SIZE,file_fp);
         file_size-=readsize;
-        
+
+        if(!file_size){
+            DEBUG_OUTPUT("coblue terminal read op complete\n");
+            clear_and_restore_idle();
+            DEBUG_OUTPUT("file_transfer read:0x%x\n",*(uint32_t*)remote_buf);
+            gatt_db_attribute_read_result(attrib,id,0,remote_buf,0);
+            return;
+        }
+
         DEBUG_OUTPUT("file_transfer read(%d):0x%x\n",readsize,*(uint32_t*)remote_buf);
         gatt_db_attribute_read_result(attrib,id,0,remote_buf,readsize);
         return;
     }
-    
+
     *(uint32_t*)remote_buf = file_transfer_status;
     gatt_db_attribute_read_result(attrib,id,0,remote_buf,sizeof(uint32_t));
 }
@@ -160,28 +160,26 @@ void comm_file_transfer_xWRITE(struct gatt_db_attribute *attrib,
                                const uint8_t *value, size_t len,
                                uint8_t opcode, struct bt_att *att,
                                void *user_data){
-    
+
     if(connect_verify(value,len)){
         WRITE_RETURN;return;
     }
-    
+
     char *cmd = (char*)value;
-    
+
     if(file_transfer_status&FILE_TRANSFER_NEED_RESPOND){
         DEBUG_OUTPUT("Please read respond first\n");WRITE_RETURN;return;
     }
-    
+
     if(file_transfer_status==FILE_TRANSFER_IDLE){
         /*Step 1*/
         file_transfer_status=FILE_TRANSFER_NEED_RESPOND;
         file_transfer_status|=FILE_TRANSFER_DECIDING_RW;
-        if(!strcmp(cmd,"read")){
+
+        if(!strncmp(cmd,"read",4)){
             isReadOP = 1;
         }
-        else if(!strcmp(cmd,"write")){
-            isReadOP = 0;
-        }
-        else if(!strcmp(cmd,"write")){
+        else if(!strncmp(cmd,"write",5)){
             isReadOP = 0;
         }
         else{
@@ -190,26 +188,26 @@ void comm_file_transfer_xWRITE(struct gatt_db_attribute *attrib,
         WRITE_RETURN;
         return;
     }
-    
+
     if(file_transfer_status&FILE_TRANSFER_DECIDING_RW){
         /*Step 3*/
         DEBUG_OUTPUT("file_transfer Step 3\n");
-        
+
         file_transfer_status&=~FILE_TRANSFER_DECIDING_RW;
         file_transfer_status|=FILE_TRANSFER_NEED_RESPOND;
         file_transfer_status|=FILE_TRANSFER_DECIDING_PATH;
-        
+
         if(len>RECEIVE_SIZE){
             file_transfer_status|=FILE_TRANSFER_ERROR_FILEPATH_TOO_LONG;
             WRITE_RETURN;
             return;
         }
-        
+
         bzero(file_path,RECEIVE_SIZE);
         memcpy(file_path,cmd,len);
-        
+
         DEBUG_OUTPUT("file_transfer file_path(len:%d):%s\n",strlen(file_path),file_path);
-        
+
         if(isReadOP){
             struct stat fstat;
             if (stat(file_path,&fstat) < 0 )
@@ -247,22 +245,22 @@ void comm_file_transfer_xWRITE(struct gatt_db_attribute *attrib,
                 WRITE_RETURN;
                 return;
             }
-            
+
             file_fp = fopen(file_path,"a+");
             if(!file_fp){
                 file_transfer_status|=FILE_TRANSFER_ERROR_LOCALFILE_FOPEN_FAILED;
                 WRITE_RETURN;
                 return;
             }
-            
+
             chown(file_path,COBLUE_WRITE_FILE_OWNER,COBLUE_WRITE_FILE_OWNER);
             chmod(file_path,COBLUE_WRITE_FILE_PERMISSION);
         }
-        
+
         WRITE_RETURN;
         return;
     }
-    
+
     //Ask size of file before writing to the local file,but actually its not matter
     /*if(file_transfer_status&FILE_TRANSFER_WRITEFILE_SIZE){
      //Step 5(write) Deprecated
@@ -276,30 +274,30 @@ void comm_file_transfer_xWRITE(struct gatt_db_attribute *attrib,
      WRITE_RETURN;
      return;
      }*/
-    
+
     if(file_transfer_status&FILE_TRANSFER_WRITING_FILE){
         /*Step 5(write)*/
-        
+
         DEBUG_OUTPUT("file_transfer Step 6(write)\n");
-        
+
         size_t wrotesize = len;
-        
+
         if(!len){
             DEBUG_OUTPUT("coblue terminal write op complete\n");
-            
+
             clear_and_restore_idle();
             WRITE_RETURN;
             return;
         }
-        
+
         fwrite(value,1,wrotesize,file_fp);
-        
+
         DEBUG_OUTPUT("file_transfer write(%d):0x%x\n",wrotesize,*(uint32_t*)value);
-        
+
         WRITE_RETURN;
         return;
     }
-    
+
     WRITE_RETURN;
     return;
 }

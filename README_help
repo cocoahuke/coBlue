@@ -28,7 +28,7 @@ Options:
   -verifyw		Modify the authentication configuration using the nano tool
   -verifyti [arg]	Specified the countdown(second) for complete verify before disconnecting, default is three seconds
 
-  -name [arg]	Specifies the device name when advertising, default is orange
+  -name [arg]	Specifies the device name when advertising. Only work with daemon, and default is orange. default name is raspberrypi without daemon
 
   -configw		add the boot parameters that every time using with boot. if you want to change the name, this way
 pi@raspberrypi:~ $

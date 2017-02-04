@@ -40,35 +40,35 @@
 #include "ble/gatt/gatt-db.h"
 #include "ble/gatt/gatt-server.h"
 
-static int COBLUE_DEBUG_OUTPUT=0;
+extern int COBLUE_DEBUG_OUTPUT;
 
 #define COBLUE_INTERNAL_STDSIZE 1024
 #define COBLUE_REBOOT_INTERVAL_SEC 1
 
-static int COBLUE_RUN_WITHOUT_DAEMON=0;
+extern int COBLUE_RUN_WITHOUT_DAEMON;
 
 #define COBLUE_PROG_NAME "coBlued" //coBlued
-static char COBLUE_ADV_DEVICE_NAME[1024];
+extern char COBLUE_ADV_DEVICE_NAME[1024];
 #define COBLUE_BLE_GATT_MTU 0
 
-static int COBLUE_ATT_SECURITY=BT_SECURITY_MEDIUM;
+extern int COBLUE_ATT_SECURITY;
 
 #define COBLUE_SERVICE_UUID 0x1111
 #define COBLUE_TERMINAL_UUID 0x2222
 #define COBLUE_FILE_TRANSFER_UUID 0x3333
 
 #define COBLUE_WRITE_FILE_PERMISSION S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IWGRP|S_IXGRP|S_IROTH
-static int COBLUE_WRITE_FILE_OWNER=1000;  //pi
+extern int COBLUE_WRITE_FILE_OWNER;  //pi
 
-static int COBLUE_ENABLE_MAC_FILTER=1;
-static int COBLUE_MAXIMUM_FILTER_ENTRY=10;
+extern int COBLUE_ENABLE_MAC_FILTER;
+extern int COBLUE_MAXIMUM_FILTER_ENTRY;
 
-static int COBLUE_ENABLE_VERIFICATION=1;
-static int COBLUE_VERIFY_TIME_LIMIT=3;
+extern int COBLUE_ENABLE_VERIFICATION;
+extern int COBLUE_VERIFY_TIME_LIMIT;
 int connect_verify(char *veriyuuid,size_t len);
 
 #define EXC_PERROR(log) do{printf("%s:%d\n",__FUNCTION__,__LINE__);perror(log);prog_quit(0);}while(0)
-#define EXC_PRINT(log,...) do{printf("%s:%d\n",__FUNCTION__,__LINE__);printf(log);prog_quit(0);}while(0)
-#define DEBUG_OUTPUT(log,...) if(COBLUE_DEBUG_OUTPUT){printf(log);}
+#define EXC_PRINT(log...) do{printf("%s:%d\n",__FUNCTION__,__LINE__);printf(log);prog_quit(0);}while(0)
+#define DEBUG_OUTPUT(log...) if(COBLUE_DEBUG_OUTPUT){printf(log);}
 void prog_quit(int sig);
 #endif
