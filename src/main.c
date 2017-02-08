@@ -819,11 +819,12 @@ int main(int argc, const char * argv[]){
 
     printf("---%s Start---\n\n",COBLUE_PROG_NAME);
 
-    while(1){
-        connsk = ble_att_listen_accept(BDADDR_ANY);
-        if (connsk > 0) {
-            break;
-        }
+    connsk = ble_att_listen_accept(BDADDR_ANY);
+    if (connsk > 0) {
+        break;
+    }
+    else{
+        prog_quit(0);
     }
 
     if(COBLUE_DEBUG_OUTPUT)
