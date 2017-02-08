@@ -53,8 +53,7 @@ I did not provide iOS program, but its a simple conversion from Mac program, bot
 
 **Download**
 ```bash
-git clone https://github.com/cocoahuke/coblue.git
-cd coblue
+git clone https://github.com/cocoahuke/coblue.git && cd coblue
 ```
 
 **Compile and install** coBlued on raspberry pi:
