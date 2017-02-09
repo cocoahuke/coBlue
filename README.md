@@ -74,9 +74,11 @@ or
 ```bash
 sudo coBlued -verifyw
 ```
-Then reboot to **Start using**, Use [coblue-control](https://github.com/cocoahuke/coblue-control) **communicate** on Macos
+Then reboot to **Start using**  
 
-
+Use [coblue-control](https://github.com/cocoahuke/coblue-control) **Communication** on Macos
+<br><br>
+<br><br>
 If you want to **Temporarily turn off**
 ```
 sudu killall coBlued
