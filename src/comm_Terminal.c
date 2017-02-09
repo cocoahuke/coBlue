@@ -84,6 +84,7 @@ void terminal_write(char *cmd){
         terminal_status|=TERMINAL_EXEC_DONE|TERMINAL_GOT_RETURN;
         while(*(uint32_t*)pub_buf){
         }
+        bzero(pub_buf,STDSIZE);
     }
 
     if(terminal_status&TERMINAL_GOT_RETURN){

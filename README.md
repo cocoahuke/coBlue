@@ -25,7 +25,7 @@ Raspberry pi (This Should support other device which compatible with bluez)
 
 A Mac running Mac os (iOS should also be able to support, I built on GATT / ATT protocol for iOS, but i have not written a program for iOS yet)
 
-Another program to communicate with coBlue on Macos (Publish soon)
+[coblue-control](https://github.com/cocoahuke/coblue-control) to communicate with coBlue on Macos
 ## Feature
 
 1. BLE Low power consumption advantage
@@ -53,7 +53,8 @@ I did not provide iOS program, but its a simple conversion from Mac program, bot
 
 **Download**
 ```bash
-git clone https://github.com/cocoahuke/coblue.git && cd coblue
+git clone https://github.com/cocoahuke/coblue.git
+&& cd coblue
 ```
 
 **Compile and install** coBlued on raspberry pi:
@@ -73,9 +74,8 @@ or
 ```bash
 sudo coBlued -verifyw
 ```
-Then reboot to **Start using**
+Then reboot to **Start using**, Use [coblue-control](https://github.com/cocoahuke/coblue-control) **communicate** on Macos
 
-Macos control tools as BLE central: (Publish soon)
 
 If you want to **Temporarily turn off**
 ```
@@ -100,3 +100,9 @@ sudo make uninstall
 
 ## Sample
 ![sample](sample.gif)
+
+## Sample - M<font size=3>odify the wpa configuration file</font>
+
+![sample1](sample1.gif)
+
+![sample2](sample2.gif)
