@@ -37,6 +37,7 @@ uninstall:$(checksudo)
 	update-rc.d coBlued remove
 	rm -f build/coBlued
 	rm -f /usr/sbin/coBlued
+	exec /etc/init.d/coBlued stop
 	rm -f /etc/init.d/coBlued
 
 .PHONY:clean

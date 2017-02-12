@@ -84,6 +84,19 @@ void simple_pipe_cmd(char *cmd,char *result){
     pclose(in_pipe);
 }
 
+void keep_adversting_if_unconnect(){
+    while(1){
+        sleep(2);
+        if(connsk){
+            ble_set_advertise_enable(0);
+            break;
+        }
+        else{
+            ble_set_advertise_enable(1);
+        }
+    }
+}
+
 void ble_set_advertise_enable(int enable){
     
     int dev_id,dd;
@@ -302,14 +315,12 @@ int ble_att_listen_accept(bdaddr_t *servaddr){
         EXC_PERROR("listening on socket failed\n");
     }
     
-    ble_set_advertise_enable(0);
-    ble_set_advertise_enable(1);
     printf("waiting for connections...\n");
     
     memset(&clitinfo, 0, sizeof(clitinfo));
     infolen = sizeof(clitinfo);
     int remotesk = accept(sk,(struct sockaddr *)&clitinfo,&infolen);
-    ble_set_advertise_enable(0);
+    printf("acc1\n");
     
     char name[1024];
     
@@ -319,7 +330,7 @@ int ble_att_listen_accept(bdaddr_t *servaddr){
     }
     
     ba2str(&clitinfo.l2_bdaddr,clitaddr);
-    
+    printf("acc2\n");
     if(COBLUE_ENABLE_MAC_FILTER){
         for(int cur_amo=0;filter_arr_ptr[cur_amo];cur_amo++){
             if(!strcmp(clitaddr,filter_arr_ptr[cur_amo])){
@@ -332,7 +343,7 @@ int ble_att_listen_accept(bdaddr_t *servaddr){
             }
         }
     }
-    
+    printf("acc3\n");
     if (COBLUE_ENABLE_VERIFICATION){
         done_verify = 0;
         if(COBLUE_DEBUG_OUTPUT)
@@ -342,7 +353,7 @@ int ble_att_listen_accept(bdaddr_t *servaddr){
         close(sk);
         return remotesk;
     }
-    
+    printf("acc4\n");
     if(COBLUE_DEBUG_OUTPUT)
         printf("Rejected connect from %s\n",clitaddr);
     
@@ -819,8 +830,12 @@ int main(int argc, const char * argv[]){
     
     printf("---%s Start---\n\n",COBLUE_PROG_NAME);
     
+    pthread_t cc;
+    pthread_create(&cc,NULL,keep_adversting_if_unconnect,NULL);
+    
     connsk = ble_att_listen_accept(BDADDR_ANY);
     if (connsk < 0) {
+        connsk = 0;
         prog_quit(0);
     }
     
