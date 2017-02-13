@@ -21,7 +21,8 @@ Broadcasts continuously when there is no connection or disconnect
 Tested on Raspbian 8.5 (Code name: jessie), Mac os 10.10.5
 
 ## Require
-Raspberry pi (This Should support other device which compatible with bluez)  
+Raspberry pi (Should support other device which compatible with bluez)  
+A Bluetooth dongle (pi3 already build-in)
 
 A Mac running Mac os (iOS should also be able to support, I built on GATT / ATT protocol for iOS, but i have not written a program for iOS yet)
 
