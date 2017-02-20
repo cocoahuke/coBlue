@@ -320,7 +320,6 @@ int ble_att_listen_accept(bdaddr_t *servaddr){
     memset(&clitinfo, 0, sizeof(clitinfo));
     infolen = sizeof(clitinfo);
     int remotesk = accept(sk,(struct sockaddr *)&clitinfo,&infolen);
-    printf("acc1\n");
     
     char name[1024];
     
@@ -330,7 +329,7 @@ int ble_att_listen_accept(bdaddr_t *servaddr){
     }
     
     ba2str(&clitinfo.l2_bdaddr,clitaddr);
-    printf("acc2\n");
+    
     if(COBLUE_ENABLE_MAC_FILTER){
         for(int cur_amo=0;filter_arr_ptr[cur_amo];cur_amo++){
             if(!strcmp(clitaddr,filter_arr_ptr[cur_amo])){
@@ -343,7 +342,7 @@ int ble_att_listen_accept(bdaddr_t *servaddr){
             }
         }
     }
-    printf("acc3\n");
+    
     if (COBLUE_ENABLE_VERIFICATION){
         done_verify = 0;
         if(COBLUE_DEBUG_OUTPUT)

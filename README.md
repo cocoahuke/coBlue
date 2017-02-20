@@ -1,9 +1,7 @@
 # coBlue
 Use Bluetooth Low Energy for remote commands, file transfer, Based on bluez Bluetooth protocol stack
 
-[![build](https://travis-ci.org/cocoahuke/coBlue.svg?branch=master)](https://travis-ci.org/cocoahuke/coBlue)
-[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/cocoahuke/coBlue/blob/master/LICENSE)
-[![version](https://img.shields.io/badge/version-1.0-yellow.svg)]()
+[![Contact](https://img.shields.io/badge/contact-@cocoahuke-fbb52b.svg?style=flat)](https://twitter.com/cocoahuke) [![build](https://travis-ci.org/cocoahuke/coBlue.svg?branch=master)](https://travis-ci.org/cocoahuke/coBlue) [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/cocoahuke/coBlue/blob/master/LICENSE) [![version](https://img.shields.io/badge/version-1.0-yellow.svg)]() [![paypal](https://img.shields.io/badge/Donate-PayPal-039ce0.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=EQDXSYW8Z23UY)
 
 Bluetooth Low Energy compared to other forms of wireless connection such as wifi or Bluetooth have more uncomplicated, lower energy consumption. Image your iPhone wirelessly connect to a tiny computer such as raspberry pi etc, and use the powerful tool on Linux
 
@@ -27,6 +25,7 @@ A Bluetooth dongle (pi3 already build-in)
 A Mac running Mac os (iOS should also be able to support, I built on GATT / ATT protocol for iOS, but i have not written a program for iOS yet)
 
 [coblue-control](https://github.com/cocoahuke/coblue-control) to communicate with coBlue on Macos
+[coBlue-iOS](https://github.com/cocoahuke/coBlue-iOS) to communicate with coBlue on iOS
 ## Feature
 
 1. BLE Low power consumption advantage
@@ -77,8 +76,7 @@ sudo coBlued -verifyw
 ```
 Then reboot to **Start using**  
 
-Use [coblue-control](https://github.com/cocoahuke/coblue-control) **Communication** on Macos
-<br><br>
+Use [coblue-control](https://github.com/cocoahuke/coblue-control) or [coBlue-iOS](https://github.com/cocoahuke/coBlue-iOS) **Communication** on Macos/iOS
 <br><br>
 If you want to **Temporarily turn off**
 ```
@@ -98,13 +96,11 @@ if need **Uninstall**
 sudo make uninstall
 ```
 
-## License
-[MIT](https://github.com/cocoahuke/coBlue/blob/master/LICENSE)
 
-## Sample
+## Demo
 ![sample](sample.gif)
 
-## Sample - M<font size=3>odify the wpa configuration file</font>
+## Demo <font size=3>(Modify the wpa configuration file)</font>
 
 ![sample1](sample1.gif)
 
