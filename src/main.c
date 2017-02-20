@@ -643,23 +643,25 @@ void spec_args(int argc,const char *argv[]){
             COBLUE_RUN_WITHOUT_DAEMON = 1;
         }
         if(!strcmp(argv[i],"-secur")){
-            i++;
-            if(!strcmp((char*)argv[i],"low"))
+            char *c = (i=i+1)>=argc?"":(char*)argv[i];
+            if(!strcmp(c,"low"))
                 COBLUE_ATT_SECURITY = BT_SECURITY_LOW;
-            else if(!strcmp((char*)argv[i],"medium"))
+            else if(!strcmp(c,"medium"))
                 COBLUE_ATT_SECURITY = BT_SECURITY_MEDIUM;
-            else if(!strcmp((char*)argv[i],"high"))
+            else if(!strcmp(c,"high"))
                 COBLUE_ATT_SECURITY = BT_SECURITY_HIGH;
-            else if(!strcmp((char*)argv[i],"fips"))
+            else if(!strcmp(c,"fips"))
                 COBLUE_ATT_SECURITY = BT_SECURITY_FIPS;
             else
                 COBLUE_ATT_SECURITY = BT_SECURITY_MEDIUM;
         }
         if(!strcmp(argv[i],"-wowner")){
-            i++;
-            struct passwd *spe_uid = getpwnam((char*)argv[i]);
-            if(spe_uid->pw_uid)
-                COBLUE_WRITE_FILE_OWNER = spe_uid->pw_uid;
+            char *c = (i=i+1)>=argc?NULL:(char*)argv[i];
+            if(c){
+                struct passwd *spe_uid = getpwnam(c);
+                if(spe_uid->pw_uid)
+                    COBLUE_WRITE_FILE_OWNER = spe_uid->pw_uid;
+            }
         }
         if(!strcmp(argv[i],"-dmacfltr")){
             COBLUE_ENABLE_MAC_FILTER=0;
@@ -675,8 +677,9 @@ void spec_args(int argc,const char *argv[]){
             execv("/usr/bin/nano",shargv);
         }
         if(!strcmp(argv[i],"-fltrmax")){
-            i++;
-            COBLUE_MAXIMUM_FILTER_ENTRY = (uint32_t)strtoull((char*)argv[i],0,8);
+            char *c = (i=i+1)>=argc?NULL:(char*)argv[i];
+            if(c)
+                COBLUE_MAXIMUM_FILTER_ENTRY = (uint32_t)strtoull(c,0,8);
         }
         if(!strcmp(argv[i],"-dverify")){
             COBLUE_ENABLE_VERIFICATION = 0;
@@ -692,12 +695,14 @@ void spec_args(int argc,const char *argv[]){
             execv("/usr/bin/nano",shargv);
         }
         if(!strcmp(argv[i],"-verifyti")){
-            i++;
-            COBLUE_VERIFY_TIME_LIMIT = (uint32_t)strtoull((char*)argv[i],0,8);
+            char *c = (i=i+1)>=argc?NULL:(char*)argv[i];
+            if(c)
+                COBLUE_VERIFY_TIME_LIMIT = (uint32_t)strtoull(c,0,8);
         }
         if(!strcmp(argv[i],"-name")){
-            i++;
-            strcpy(COBLUE_ADV_DEVICE_NAME,argv[i]);
+            char *c = (i=i+1)>=argc?NULL:(char*)argv[i];
+            if(c)
+                strcpy(COBLUE_ADV_DEVICE_NAME,c);
         }
         if(!strcmp(argv[i],"-configw")){
             char *shargv[]={"/usr/bin/nano","/etc/init.d/coBlued",NULL};
