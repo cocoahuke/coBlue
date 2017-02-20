@@ -24,7 +24,7 @@ A Bluetooth dongle (pi3 already build-in)
 
 A Mac running Mac os (iOS should also be able to support, I built on GATT / ATT protocol for iOS, but i have not written a program for iOS yet)
 
-[coblue-control](https://github.com/cocoahuke/coblue-control) to communicate with coBlue on Macos
+[coblue-control](https://github.com/cocoahuke/coblue-control) to communicate with coBlue on Macos  
 [coBlue-iOS](https://github.com/cocoahuke/coBlue-iOS) to communicate with coBlue on iOS
 ## Feature
 
