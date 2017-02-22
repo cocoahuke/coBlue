@@ -679,7 +679,7 @@ void spec_args(int argc,const char *argv[]){
         if(!strcmp(argv[i],"-fltrmax")){
             char *c = (i=i+1)>=argc?NULL:(char*)argv[i];
             if(c)
-                COBLUE_MAXIMUM_FILTER_ENTRY = (uint32_t)strtoull(c,0,8);
+                COBLUE_MAXIMUM_FILTER_ENTRY = (uint32_t)strtoull(c,0,10);
         }
         if(!strcmp(argv[i],"-dverify")){
             COBLUE_ENABLE_VERIFICATION = 0;
@@ -697,7 +697,7 @@ void spec_args(int argc,const char *argv[]){
         if(!strcmp(argv[i],"-verifyti")){
             char *c = (i=i+1)>=argc?NULL:(char*)argv[i];
             if(c)
-                COBLUE_VERIFY_TIME_LIMIT = (uint32_t)strtoull(c,0,8);
+                COBLUE_VERIFY_TIME_LIMIT = (uint32_t)strtoull(c,0,10);
         }
         if(!strcmp(argv[i],"-name")){
             char *c = (i=i+1)>=argc?NULL:(char*)argv[i];
