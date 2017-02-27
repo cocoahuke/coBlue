@@ -506,6 +506,26 @@ void asdaemon_getmainprogpath(char *buf){
     }
 }
 
+void asdaemon_killothermainprogs()
+{
+    char tmpstr[1024];
+    char result[COBLUE_INTERNAL_STDSIZE];
+    const char *progname = COBLUE_PROG_NAME;
+    sprintf(tmpstr,"ps -c -e |awk '$NF==\"%s\"{print $1}'|xargs echo",progname);
+    simple_pipe_cmd(tmpstr,result);
+    if(strlen(result)){
+        char *p = strtok(result," ");
+        while(p)
+        {
+            uint32_t pid = (uint32_t)atol(p);
+            if(pid>0&&pid!=getpid()){
+                kill(pid,SIGINT);
+            }
+            p=strtok(NULL," ");
+        }
+    }
+}
+
 void asdaemon_killallmainprogs(int sig)
 {
     char tmpstr[1024];
@@ -580,6 +600,7 @@ void asdaemon_run(){
             if(need_reboot_mainprog){
                 /* Here is what child proc do for dad proc*/
                 /* Default is reboot dad proc,But you can change/add op when dad proc is quit and*/
+                asdaemon_killothermainprogs();
                 asdaemon_run_when_coBlue_reboot();
                 sprintf(tmpstr,"exec %s",execpath);
                 system(tmpstr);
