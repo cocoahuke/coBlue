@@ -62,6 +62,7 @@ git clone https://github.com/cocoahuke/coblue.git
 ```bash
 sudo make
 sudo make install
+coBlued
 ```
 **Configure** the Mac Address filter file or authentication file, otherwise no device can be connected successfully  
 more info, please refer to -h
