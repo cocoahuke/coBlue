@@ -81,7 +81,7 @@ Use [coblue-control](https://github.com/cocoahuke/coblue-control) or [coBlue-iOS
 <br><br>
 If you want to **Temporarily turn off**
 ```
-sudu killall coBlued
+sudo killall coBlued
 ```
 If you want to **Disable it**
 ```
